@@ -1,0 +1,68 @@
+:root{
+  --bg: #0e1420;
+  --card: #111622;
+  --accent: #ffcc00;
+  --muted: #9aa4b2;
+  --btn: #ffbf24;
+}
+*{box-sizing:border-box;font-family:Inter, system-ui, Arial, sans-serif}
+body{
+  margin:0;
+  min-height:100vh;
+  background: linear-gradient(180deg,#0b1020 0%, #1a2030 60%);
+  color:#e6eef8;
+  -webkit-font-smoothing:antialiased;
+}
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 36px;
+  background:linear-gradient(90deg,#0d1626, rgba(255,255,255,0.02));
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.brand{font-weight:700;font-size:22px;color:var(--btn)}
+.nav a{color:#c7d2e6;margin-left:18px;text-decoration:none}
+.centered{display:flex;align-items:center;justify-content:center;padding:60px 20px}
+.card{
+  width:720px;
+  max-width:94%;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:12px;
+  padding:32px;
+  box-shadow: 0 8px 60px rgba(7,10,18,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
+  text-align:center;
+}
+h1{margin:0 0 18px 0;font-size:28px}
+input[type="file"]{display:inline-block}
+.fileRow{display:block;margin-bottom:12px}
+input[type="text"], input[type="password"], input#password{
+  width:100%;
+  padding:12px 14px;
+  border-radius:8px;
+  border: none;
+  margin:10px 0;
+  background:#0b1626;
+  color:#eaf0ff;
+  outline: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+}
+.btn{
+  background:var(--btn);
+  color:#061524;
+  border:none;
+  padding:12px 20px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:700;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+}
+.result{margin-top:18px}
+.hidden{display:none}
+.status{color:#8df08a;font-weight:700;margin-bottom:6px}
+.expires{color: #ffd6a8;margin-bottom:8px}
+.qrWrap{margin-top:12px}
+.qrWrap img{width:180px;height:180px;border-radius:8px;background:#fff;padding:8px}
+.error{color:#ffb0b0;margin-top:12px}
+.muted{font-size:13px;color:var(--muted);margin-top:6px}
+a{color:#cfe8ff}

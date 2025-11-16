@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>File Share — Upload</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">🚀 File Sharing System</div>
+    <nav class="nav">
+      <a href="index.html">Upload</a>
+      <a href="download.html">Download</a>
+    </nav>
+  </header>
+
+  <main class="centered">
+    <div class="card">
+      <h1>Upload your file</h1>
+
+      <form id="uploadForm">
+        <label class="fileRow">
+          <input type="file" id="fileInput" name="file" required />
+        </label>
+
+        <input id="password" name="password" placeholder="Optional password" />
+
+        <button id="uploadBtn" class="btn">Upload</button>
+      </form>
+
+      <div id="result" class="result hidden">
+        <div id="status" class="status">✅ File uploaded!</div>
+        <div class="expires">⏳ <span id="expiryText">Expires in 10 minutes</span></div>
+        <div><a id="downloadLink" href="#" target="_blank">🔗 Download Link</a></div>
+        <div class="qrWrap"><img id="qr" alt="QR code" src="" /></div>
+      </div>
+
+      <div id="error" class="error hidden"></div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

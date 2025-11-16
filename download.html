@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>File Share — Download</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">🚀 File Sharing System</div>
+    <nav class="nav">
+      <a href="index.html">Upload</a>
+      <a href="download.html">Download</a>
+    </nav>
+  </header>
+
+  <main class="centered">
+    <div class="card">
+      <h1>Download File</h1>
+
+      <div id="metaArea">
+        <div id="metaMsg">Loading...</div>
+        <div id="pwdArea" class="hidden">
+          <input id="pwdInput" placeholder="Enter password" />
+          <button id="dlBtn" class="btn">Download</button>
+        </div>
+        <div id="linkArea" class="hidden">
+          <a id="startDownload" href="#">Start download</a>
+        </div>
+      </div>
+
+      <div id="err" class="error hidden"></div>
+    </div>
+  </main>
+
+  <script>
+    // download.html JS inline to keep file minimal
+    (function () {
+      function qs(q){return document.querySelector(q);}
+      const params = new URLSearchParams(location.search);
+      const id = params.get('id');
+
+      const metaMsg = qs('#metaMsg');
+      const pwdArea = qs('#pwdArea');
+      const dlBtn = qs('#dlBtn');
+      const pwdInput = qs('#pwdInput');
+      const linkArea = qs('#linkArea');
+      const startDownload = qs('#startDownload');
+      const err = qs('#err');
+
+      if (!id) { metaMsg.textContent = 'No file id provided in URL.'; return; }
+
+      fetch(`/meta/${id}`).then(r => {
+        if (!r.ok) throw r;
+        return r.json();
+      }).then(meta => {
+        metaMsg.textContent = `File: ${meta.originalName || 'unknown'}`;
+        const expires = new Date(meta.expiresAt);
+        const diff = Math.max(0, meta.expiresAt - Date.now());
+        metaMsg.innerHTML += `<div class="muted">Expires: ${expires.toLocaleString()}</div>`;
+
+        if (meta.passwordProtected) {
+          pwdArea.classList.remove('hidden');
+        } else {
+          // create form to POST to /download/:id to start file download
+          startDownload.href = `/download/${id}`;
+          startDownload.addEventListener('click', (e) => {
+            e.preventDefault();
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/download/${id}`;
+            document.body.appendChild(form);
+            form.submit();
+          });
+          linkArea.classList.remove('hidden');
+        }
+      }).catch(async (errResp) => {
+        try {
+          const text = await errResp.text();
+          metaMsg.textContent = 'Error: ' + (text || errResp.statusText || 'Not found');
+        } catch(e){
+          metaMsg.textContent = 'File not found or expired.';
+        }
+      });
+
+      dlBtn.addEventListener('click', () => {
+        err.classList.add('hidden');
+        // create a form to POST password and trigger download
+        const pwd = pwdInput.value || '';
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/download/${id}`;
+
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'password';
+        input.value = pwd;
+        form.appendChild(input);
+
+        document.body.appendChild(form);
+        form.submit();
+        // no AJAX because we want browser to save file response
+      });
+    })();
+  </script>
+</body>
+</html>
